@@ -11,6 +11,11 @@ type WeatherCity struct {
 	timestamp int
 }
 
+func (wc WeatherCity) String() string {
+	return fmt.Sprintf("WEATHERCITY!!! %v: \nCity: %v\nWeather: %v",
+		wc.timestamp, wc.City, wc.Weather)
+}
+
 func Test() {
 	t := WeatherCity{}
 	t.Humidity = 34
@@ -20,7 +25,6 @@ func Test() {
 	t.timestamp = 234234234
 	t.Weather.Condition = 34
 	t.City.Name = ""
-	t.printCity()
 
 	fmt.Println(t)
 }

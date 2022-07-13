@@ -8,6 +8,6 @@ type City struct {
 	Country string
 }
 
-func (City) printCity() {
-	fmt.Println("I'm a City")
+func (city City) String() string {
+	return fmt.Sprintf("City %v", city.Name)
 }
