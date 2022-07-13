@@ -30,7 +30,7 @@ func GetWeather(cityName string) (*model.WeatherCity, error) {
 			} else {
 				// We have some response available
 				wc := model.WeatherCity{}
-				parseWeatherJSON(bytes, &wc)
+				parseWeatherJSONPretty(bytes, &wc)
 				return &wc, nil
 			}
 		} else {
@@ -40,6 +40,15 @@ func GetWeather(cityName string) (*model.WeatherCity, error) {
 				extra: cityName}
 		}
 	}
+}
+
+func parseWeatherJSONPretty(bytes []byte, wc *model.WeatherCity) {
+	var result OpenWeatherMapResponse
+	json.Unmarshal(bytes, &result)
+	wc.Name = result.Name
+	wc.Id = result.Id
+	wc.Temperature = model.DegreeK(result.Main.Temperature)
+	wc.Humidity = int(result.Main.Humidity)
 }
 
 func parseWeatherJSON(bytes []byte, wc *model.WeatherCity) {
