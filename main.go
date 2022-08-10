@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"sync"
 
 	"andreani.com/go/weathergo/api"
@@ -9,7 +10,8 @@ import (
 
 func main() { // main goroutine
 	fmt.Println("Weather Go 1.0 - Welcome")
-	cities := []string{"Madrid", "Buenos Aires", "Rosario", "Moscow", "Lisbon"}
+
+	cities := os.Args[1:]
 
 	var wg sync.WaitGroup
 
