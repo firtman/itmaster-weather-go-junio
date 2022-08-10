@@ -2,21 +2,27 @@ package main
 
 import (
 	"fmt"
-	"time"
+	"sync"
 
 	"andreani.com/go/weathergo/api"
 )
 
-func main() { // main couroutine
+func main() { // main goroutine
 	fmt.Println("Weather Go 1.0 - Welcome")
-	cities := []string{"Madrid", "Buenos Aires", "Rosario", "Moscow"}
+	cities := []string{"Madrid", "Buenos Aires", "Rosario", "Moscow", "Lisbon"}
+
+	var wg sync.WaitGroup
 
 	for _, city := range cities { // for each
+		wg.Add(1)
 		fmt.Printf("Looking for weather in %v ⏳\n", city) // sync
-		go processCity(city)                              // async
+		go func(currentCity string) {                     // goroutine en un bloque anónimo
+			processCity(currentCity)
+			wg.Done() // wait synchronously to the whole group
+		}(city)
 	}
-
-	time.Sleep(2 * time.Second) // espero en el main goroutine 3 segundos
+	wg.Wait()
+	// time.Sleep(2 * time.Second) // espero en el main goroutine 3 segundos
 }
 
 func processCity(city string) {
